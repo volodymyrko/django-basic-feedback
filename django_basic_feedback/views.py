@@ -16,7 +16,6 @@ from forms import FeedbackForm
 
 logger = logging.getLogger(__name__)
 
-@login_required
 def add(request):
     if request.method == "POST":
         form = FeedbackForm(request.POST)
