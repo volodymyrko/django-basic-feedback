@@ -12,3 +12,8 @@
 	{% feedback_widget %}
 
 5. Run './manager.py syncdb'.
+
+
+
+It's a clone of https://github.com/SeanHayes/django-basic-feedback module:
+    - Added the possibility to leave feedback anonymous users
