@@ -8,6 +8,7 @@ import logging
 #Django imports
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed
+from django.contrib.auth.models import User
 
 #App imports
 from models import Feedback
@@ -17,26 +18,27 @@ logger = logging.getLogger(__name__)
 
 @login_required
 def add(request):
-	if request.method == "POST":
-		form = FeedbackForm(request.POST)
-		
-		if form.is_valid():
-			form.instance.user = request.user
-			if 'HTTP_REFERER' in request.META:
-				form.instance.page = request.META['HTTP_REFERER']
-			
-			form.save()
-			
-			return HttpResponse('', mimetype="text/plain")
-		else:
-			logger.debug(form.errors)
-			error_msg = []
-			for field in form.errors:
-				for error in form.errors[field]:
-					error_msg.append('%s: %s' % (form.fields[field].label, error))
-			error_msg = '\n'.join(error_msg)
-			
-			return HttpResponseBadRequest(error_msg, mimetype="text/plain")
-	else:
-		return HttpResponseNotAllowed(["POST",])
+    if request.method == "POST":
+        form = FeedbackForm(request.POST)
+        
+        if form.is_valid():
+            if isinstance( request.user, User):
+                form.instance.user = request.user
+            if 'HTTP_REFERER' in request.META:
+                form.instance.page = request.META['HTTP_REFERER']
+            
+            form.save()
+            
+            return HttpResponse('', mimetype="text/plain")
+        else:
+            logger.debug(form.errors)
+            error_msg = []
+            for field in form.errors:
+                for error in form.errors[field]:
+                    error_msg.append('%s: %s' % (form.fields[field].label, error))
+            error_msg = '\n'.join(error_msg)
+            
+            return HttpResponseBadRequest(error_msg, mimetype="text/plain")
+    else:
+        return HttpResponseNotAllowed(["POST",])
 
