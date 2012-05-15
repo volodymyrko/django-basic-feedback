@@ -30,7 +30,6 @@ def add(request):
                 form.instance.page = request.META['HTTP_REFERER']
 
             form.save()
-            import pdb; pdb.set_trace()
 
             mail_from = getattr(settings, 'FEEDBACK_SEND_MAIL_FROM', False)
             mail_to = getattr(settings, 'FEEDBACK_SEND_MAIL_TO', False)
