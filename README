@@ -13,7 +13,15 @@
 
 5. Run './manager.py syncdb'.
 
-
+6. If you want to receive email notification about new feedback message, put in setting.py:
+    
+    FEEDBACK_SEND_MAIL = True # enable email notification
+    
+    FEEDBACK_SEND_MAIL_FROM = 'from@sender.email' 
+    FEEDBACK_SEND_MAIL_TO = 'to@receiver.email'
+    instead of FEEDBACK_SEND_MAIL_FROM and FEEDBACK_SEND_MAIL_TO you must define ADMINS variable, then sender and reciever are the same (only first admin from settings.ADMINS)
+    Importamnt: You should also consider other smtp-settings necessary for the proper functioning of mail on your website (server), for example, SMTP_HOST, SMTP_USER, SMTP_PASSWORD etc.
 
 It's a clone of https://github.com/SeanHayes/django-basic-feedback module:
     - Added the possibility to leave feedback anonymous users
+    - Added optional email notification about new feedback message
