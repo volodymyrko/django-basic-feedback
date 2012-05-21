@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 def add(request):
     if request.method == "POST":
         form = FeedbackForm(request.POST)
-        
+
         if form.is_valid():
             if isinstance( request.user, User):
                 form.instance.user = request.user
@@ -50,7 +50,7 @@ def add(request):
                 for error in form.errors[field]:
                     error_msg.append('%s: %s' % (form.fields[field].label, error))
             error_msg = '\n'.join(error_msg)
-            
+
             return HttpResponseBadRequest(error_msg, mimetype="text/plain")
     else:
         return HttpResponseNotAllowed(["POST",])
